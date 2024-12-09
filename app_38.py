@@ -19,16 +19,16 @@ except ImportError:
     st.stop()
 
 # Load the section, professional elective, and core section files from GitHub
-section_url = 'https://raw.githubusercontent.com/satyam26en/TIME_TABLE_KIIT/main/SECTION.csv'
-elective_url = 'https://raw.githubusercontent.com/satyam26en/TIME_TABLE_KIIT/main/Professional_Elective%20-%20Sheet1.csv'
-core_url = 'https://raw.githubusercontent.com/satyam26en/TIME_TABLE_KIIT/main/NEW_CORE.csv'
+section_url = 'https://raw.githubusercontent.com/satyam26en/TIME_TABLE_KIIT/main/Section.csv'
+#elective_url = 'https://raw.githubusercontent.com/satyam26en/TIME_TABLE_KIIT/main/Professional_Elective%20-%20Sheet1.csv'
+core_url = 'https://raw.githubusercontent.com/satyam26en/TIME_TABLE_KIIT/main/TimeTable.csv'
 
 section_df = pd.read_csv(section_url)
-elective_df = pd.read_csv(elective_url)
+#elective_df = pd.read_csv(elective_url)
 core_df = pd.read_csv(core_url)
 
-# Normalize the 'Roll No.' column to ensure there are no leading/trailing spaces and consistent data type
-section_df['Roll No.'] = section_df['Roll No.'].astype(str).str.strip()
+# Normalize the 'Roll Number' column to ensure there are no leading/trailing spaces and consistent data type
+section_df['Roll Number'] = section_df['Roll Number'].astype(str).str.strip()
 
 # Define the order of days and times
 days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
@@ -47,15 +47,15 @@ day_mapping = {
 # Function to standardize time slot names
 def standardize_time_slot(time_slot):
     time_slot_mapping = {
-        '8 TO 9': '8 TO 9',
-        '9 TO 10': '9 TO 10',
-        '10 TO 11': '10 TO 11',
-        '11 TO 12': '11 TO 12',
-        '12 TO 1': '12 TO 1',
-        '1 TO 2': '1 TO 2',
-        '2 TO 3': '2 TO 3',
-        '3 TO 4': '3 TO 4',
-        '4 TO 5': '4 TO 5'
+        '8-9': '8 TO 9',
+        '9-10': '9 TO 10',
+        '10-11': '10 TO 11',
+        '11-12': '11 TO 12',
+        '12-1': '12 TO 1',
+        '1-2': '1 TO 2',
+        '2-3': '2 TO 3',
+        '3-4': '3 TO 4',
+        '4-5': '4 TO 5'
     }
     # Remove extra spaces in the time slot string to match the mapping
     standardized_slot = ' '.join(time_slot.upper().split())
@@ -64,20 +64,20 @@ def standardize_time_slot(time_slot):
 # Function to generate and display the timetable
 def generate_timetable(roll_number):
     # Find the section details for the given roll number
-    student_section = section_df[section_df['Roll No.'] == roll_number]
+    student_section = section_df[section_df['Roll Number'] == roll_number]
 
     if student_section.empty:
         st.error("Roll number not found.")
         return None
 
     # Extract the core section and elective sections
-    core_section = student_section['Core Section'].values[0]
-    elective_1_section = student_section['Professional Elective 1'].values[0]
-    elective_2_section = student_section['Professional Elective 2'].values[0]
+    core_section = student_section['SECTION'].values[0]
+    #elective_1_section = student_section['Professional Elective 1'].values[0]
+    #elective_2_section = student_section['Professional Elective 2'].values[0]
 
     # Retrieve the weekly timetable for Professional Electives 1 and 2
-    elective_1_timetable = elective_df[elective_df['Section(DE)'] == elective_1_section]
-    elective_2_timetable = elective_df[elective_df['Section(DE)'] == elective_2_section]
+    #elective_1_timetable = elective_df[elective_df['Section(DE)'] == elective_1_section]
+    #elective_2_timetable = elective_df[elective_df['Section(DE)'] == elective_2_section]
     core_timetable = core_df[core_df['Section'] == core_section]
 
     # Initialize the timetable matrix
@@ -101,8 +101,8 @@ def generate_timetable(roll_number):
 
     # Fill the timetable matrix for core and elective timetables
     fill_timetable(core_timetable)
-    fill_timetable(elective_1_timetable)
-    fill_timetable(elective_2_timetable)
+    f#ill_timetable(elective_1_timetable)
+    #fill_timetable(elective_2_timetable)
 
     # Replace NaN values with blank spaces
     timetable_matrix = timetable_matrix.fillna('')
