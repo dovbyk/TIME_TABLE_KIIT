@@ -101,7 +101,7 @@ def generate_timetable(roll_number):
 
     # Fill the timetable matrix for core and elective timetables
     fill_timetable(core_timetable)
-    f#ill_timetable(elective_1_timetable)
+    #fill_timetable(elective_1_timetable)
     #fill_timetable(elective_2_timetable)
 
     # Replace NaN values with blank spaces
@@ -165,7 +165,7 @@ st.markdown(
 )
 
 # Display image
-st.image('https://raw.githubusercontent.com/satyam26en/TIME_TABLE_KIIT/main/KIIT-Full-Logo-Center.png', use_column_width=True)
+st.image('https://raw.githubusercontent.com/dovbyk/TIME_TABLE_KIIT/main/KIIT-Full-Logo-Center.png', use_column_width=True)
 
 st.title('Student Timetable Viewer')
 
